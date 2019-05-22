@@ -252,14 +252,6 @@ public class Workout {
 				selectedExercisesForMuscleGroup.add(e);
 		}
 				
-		/*while (selectedExercisesForMuscleGroup.size()<numOfExercisesPerMuscleGroup) {
-			//randomly add exercises (because adding to a set, won't allow duplicates
-			int randomNumberToSelectExercise = rand.nextInt(allExercisesForMuscleGroup.size()); 
-			Exercise e = allExercisesForMuscleGroup.get(randomNumberToSelectExercise);
-			if (!selectedExercisesForMuscleGroup.contains(e))
-				selectedExercisesForMuscleGroup.add(e);
-		}*/
-		
 		return new GroupOfExercises(selectedExercisesForMuscleGroup,muscleGroup);	
 	}
 	
@@ -272,21 +264,17 @@ public class Workout {
 		List<ExerciseInfo> filteredExerciseInfo = new ArrayList<ExerciseInfo>(); 
 		//depending on what hte workout MuscleGroup is, we need to either look at the exercise primaryMuscleGroup or the exercise generalMuscleGroup
 		if (muscleGroup instanceof GeneralBodyPart) {			 
-			//filteredExerciseInfo = db.stream().filter(e -> e.getGeneralMuscleGroup().equals(muscleGroup.getStringValue())).collect(Collectors.toList());
 			filteredExerciseInfo = db.stream().filter(e -> e.getGeneralMuscleGroup().equals(muscleGroup.toString())).collect(Collectors.toList());
 			
 			if (muscleGroup.equals(GeneralBodyPart.UpperBody)) {	//have upper body include Arms exercises too		
-				//List<ExerciseInfo> arms = db.stream().filter(e -> e.getGeneralMuscleGroup().equals(GeneralBodyPart.Arms.getStringValue())).collect(Collectors.toList());
 				List<ExerciseInfo> arms = db.stream().filter(e -> e.getGeneralMuscleGroup().equals(GeneralBodyPart.Arms.toString())).collect(Collectors.toList());
 				filteredExerciseInfo.addAll(arms);
 			}
 		}			
 		else { // regular BodyPart - so grab primary muscle group 
-			//filteredExerciseInfo = db.stream().filter(e -> e.getPrimaryMuscleGroup().equals(muscleGroup.getStringValue())).collect(Collectors.toList());
 			filteredExerciseInfo = db.stream().filter(e -> e.getPrimaryMuscleGroup().equals(muscleGroup.toString())).collect(Collectors.toList());	
 		}
-		//return filteredExerciseinfo
-		//create list of Exercises
+		//create list of Exercises rather than just exerciseInfo
 		for (ExerciseInfo exerciseInfo : filteredExerciseInfo) {
 			filteredExercises.add(new Exercise(exerciseInfo,new ExerciseFormat()));
 		}

@@ -29,14 +29,12 @@ public class WorkoutGenerator {
 	
 	public static void main(String[] args) {
 		
-		//WorkoutGenerator wg = new WorkoutGenerator(new Focus("chest","tris"),Type.circuit);
-		
 		//ideally Focus->MuscleGroup-> bodyPart and General Body Part are enums so that there's a pop up box that you choose from the options and select
 		//has enums
 		WorkoutGenerator wg2 = new WorkoutGenerator(new Focus(BodyPart.Chest,BodyPart.Back),Type.superset);	
 		WorkoutGenerator wg3 = new WorkoutGenerator(new Focus(GeneralBodyPart.UpperBody),Type.circuit);
 		WorkoutGenerator wg4 = new WorkoutGenerator(new Focus(GeneralBodyPart.Arms),Type.regularMedium);
-		System.out.println(GeneralBodyPart.Arms.name());
+		
 	}
 
 
