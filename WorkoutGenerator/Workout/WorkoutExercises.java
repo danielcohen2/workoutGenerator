@@ -28,14 +28,6 @@ public class WorkoutExercises {
 	
 	private int findSize() {
 		return orderedWorkoutList.size();
-		/*int sizeOfGroups=0;
-		int sizeOfOrderedList=orderedWorkoutList.size();
-		for (GroupOfExercises e : exercisesGroups) {
-			sizeOfGroups+=e.getExercises().size();
-		}
-		if (sizeOfGroups!=sizeOfOrderedList)
-			System.out.println("SIZES OF exercises in GroupOfExercises and ordered list in WorkoutExercises doesnt match");
-		return sizeOfGroups;*/
 	}
 
 	public int getSize() {

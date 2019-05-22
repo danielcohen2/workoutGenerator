@@ -1,7 +1,7 @@
 
 public enum GeneralBodyPart implements MuscleGroup {
 	//these string values NEED to match exactly with the string values in the database
-	UpperBody, LowerBody, FullBody, Abs, Arms; //FullBodyCardioFocused;
+	UpperBody, LowerBody, FullBody, Abs, Arms, Everything; //FullBodyCardioFocused;
 	
 	//have enum have constructor with name i.e (UpperBody("Upper body"), LowerBody("Lower Body"),)
 	/*@Override

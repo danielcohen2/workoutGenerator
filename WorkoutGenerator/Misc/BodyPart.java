@@ -3,8 +3,9 @@
 //NOT USING THIS. DELETE?
 public enum BodyPart implements MuscleGroup {
 	//these string values NEED to match exactly with the string values in the database
-	Chest,Back,Shoulders,Biceps,Triceps,Forearms,Quads,Hamstrings,Glutes,Calves,Core;
+	Chest,Back,Shoulders,Biceps,Triceps,Forearms,Quads,Hamstrings,Glutes,Calves,Abs,TotalBody;
 
+	
 	//Chest("Chest"), 
 	//have constrcutor so that parameter is field strValue
 	//getStringValue will just return the field rather than having to do a switch case

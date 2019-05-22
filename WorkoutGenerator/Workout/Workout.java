@@ -270,6 +270,17 @@ public class Workout {
 				List<ExerciseInfo> arms = db.stream().filter(e -> e.getGeneralMuscleGroup().equals(GeneralBodyPart.Arms.toString())).collect(Collectors.toList());
 				filteredExerciseInfo.addAll(arms);
 			}
+			if (muscleGroup.equals(GeneralBodyPart.FullBody)) {
+				List<ExerciseInfo> upperBody = db.stream().filter(e -> e.getGeneralMuscleGroup().equals(GeneralBodyPart.UpperBody.toString())).collect(Collectors.toList());
+				List<ExerciseInfo> lowerBody = db.stream().filter(e -> e.getGeneralMuscleGroup().equals(GeneralBodyPart.LowerBody.toString())).collect(Collectors.toList());
+				filteredExerciseInfo.addAll(upperBody);
+				filteredExerciseInfo.addAll(lowerBody);
+			}
+			if (muscleGroup.equals(GeneralBodyPart.Everything)) {
+				filteredExerciseInfo = db;
+				
+			}
+			
 		}			
 		else { // regular BodyPart - so grab primary muscle group 
 			filteredExerciseInfo = db.stream().filter(e -> e.getPrimaryMuscleGroup().equals(muscleGroup.toString())).collect(Collectors.toList());	
