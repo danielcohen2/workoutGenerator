@@ -5,6 +5,10 @@ public class Focus {
 	
 	private List<MuscleGroup> muscleGroups; 
 	
+	public Focus(List<MuscleGroup> mgs) {
+		muscleGroups = mgs;
+	}
+	
 	public Focus(MuscleGroup m) {	
 		muscleGroups = new ArrayList<MuscleGroup>();
 		muscleGroups.add(m);

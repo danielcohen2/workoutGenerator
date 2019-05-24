@@ -1,7 +1,18 @@
 
 public enum GeneralBodyPart implements MuscleGroup {
 	//these string values NEED to match exactly with the string values in the database
-	UpperBody, LowerBody, FullBody, Abs, Arms, Everything; //FullBodyCardioFocused;
+	UpperBody, LowerBody, FullBody, Arms, Everything; //FullBodyCardioFocused;
+
+	public MuscleGroup getMuscleGroupValue(String muscleGroupStr) {
+		for (MuscleGroup m : GeneralBodyPart.values()) {
+			if (m.toString().equals(muscleGroupStr))
+				return m;
+		}
+		return null;
+	} 
+	
+	
+	
 	
 	//have enum have constructor with name i.e (UpperBody("Upper body"), LowerBody("Lower Body"),)
 	/*@Override

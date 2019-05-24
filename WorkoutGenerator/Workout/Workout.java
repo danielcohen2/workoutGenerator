@@ -237,6 +237,9 @@ public class Workout {
 		boolean alterantePMG = false; 
 		if (muscleGroup instanceof GeneralBodyPart) //for general muscle groups, it's selecting exercise from one big concatenated list of different primary muscle groups, so want to make sure there's some logic so exercises chosen are not all same primary muscle group within the general muscle group (i.e not all bicep in arms workout)
 			alterantePMG = true;
+		
+		//NEED TO ADDRESS - 5/24/19 - this is assuming that wont get into infinte loop - all exercises need to have atleast 6 unique execises (HAMSTRINGS is example of this) 
+		
 		while (selectedExercisesForMuscleGroup.size()<numOfExercisesPerMuscleGroup) { //randomly select exercise from potential list and add it to workout list if not a duplicate
 			boolean addExercise = true; 
 			int randomNumberToSelectExercise = rand.nextInt(allExercisesForMuscleGroup.size()); 
