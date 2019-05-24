@@ -19,18 +19,23 @@ public class Workout {
 	private static Random rand;
 	
 	private final int NUM_TOTAL_EXERCISES = 6; //6
-	
+	private boolean isValidParameters;
 	
 	public Workout(Focus focus, Type type, List<ExerciseInfo> exerciseInfo) {
 		this.focus = focus;
-		this.type = type;
-		checkValidWorkoutParamters(); //just makes sure the number of total exercises is divisible by the number of muscle groups 
+		this.type = type;	
 		this.exerciseDB = exerciseInfo;
 		this.rand = new Random();
-		//this.exercises = WorkoutHelper.createExercisesForWorkout(this);	
-		this.exercises = createExercisesForWorkout();	
-		this.orderedExerciseList = exercises.getOrderedWorkoutList();
-		this.exercisesByMuscleGroup = exercises.getExercisesGroups();
+		
+		if (!isValidWorkoutParamters()) {
+			isValidParameters = false;
+		}
+		else {	
+			isValidParameters = true;
+			this.exercises = createExercisesForWorkout();	
+			this.orderedExerciseList = exercises.getOrderedWorkoutList();
+			this.exercisesByMuscleGroup = exercises.getExercisesGroups();
+		}	
 	}
 
 	//need 12-25 sets per workout
@@ -229,22 +234,36 @@ public class Workout {
 		//return exercises;
 	}
 	
+	//quick check to see if it's possible to create required number of unique exercises (some MuscleGroups only have a few unique exercises) - used in UI 
+	private boolean possibleToCreateSetOfExercisesForMG(int numOfExercisesPerMuscleGroup, MuscleGroup muscleGroup, List<ExerciseInfo> db) {
+		List<Exercise> allExercisesForMuscleGroup = createFilteredExerciseListByMGFromDB(muscleGroup,db);
+		List<Integer>  diffUniqueExercises = new ArrayList<Integer>();		
+		for (Exercise e : allExercisesForMuscleGroup) {
+			if (!diffUniqueExercises.contains(e.hashCode()))
+				diffUniqueExercises.add(e.hashCode());
+		}
+		int numUnique = diffUniqueExercises.size();
+		return (numUnique >= numOfExercisesPerMuscleGroup);
+	}
+	
+	
 	private GroupOfExercises createSetOfExercisesForMG(int numOfExercisesPerMuscleGroup, MuscleGroup muscleGroup, List<ExerciseInfo> db) {
 		List<Exercise> allExercisesForMuscleGroup = createFilteredExerciseListByMGFromDB(muscleGroup,db);
 		
 		List<Exercise> selectedExercisesForMuscleGroup = new ArrayList<Exercise>();
 			
-		boolean alterantePMG = false; 
+		boolean alternatePMG = false; 
 		if (muscleGroup instanceof GeneralBodyPart) //for general muscle groups, it's selecting exercise from one big concatenated list of different primary muscle groups, so want to make sure there's some logic so exercises chosen are not all same primary muscle group within the general muscle group (i.e not all bicep in arms workout)
-			alterantePMG = true;
+			alternatePMG = true;
 		
 		//NEED TO ADDRESS - 5/24/19 - this is assuming that wont get into infinte loop - all exercises need to have atleast 6 unique execises (HAMSTRINGS is example of this) 
-		
 		while (selectedExercisesForMuscleGroup.size()<numOfExercisesPerMuscleGroup) { //randomly select exercise from potential list and add it to workout list if not a duplicate
+			
+				
 			boolean addExercise = true; 
 			int randomNumberToSelectExercise = rand.nextInt(allExercisesForMuscleGroup.size()); 
 			Exercise e = allExercisesForMuscleGroup.get(randomNumberToSelectExercise);
-			if (alterantePMG) { //if it's a general muscle group, make sure new exercise is different primary muscle group than the last added exercise 
+			if (alternatePMG) { //if it's a general muscle group, make sure new exercise is different primary muscle group than the last added exercise 
 				if (selectedExercisesForMuscleGroup.size()>0) {
 					Exercise latestExerciseInList = selectedExercisesForMuscleGroup.get(selectedExercisesForMuscleGroup.size()-1);
 					if (e.getInfo().getPrimaryMuscleGroup().equals(latestExerciseInList.getInfo().getPrimaryMuscleGroup())) //if same primary muscle group dont add
@@ -296,13 +315,25 @@ public class Workout {
 				
 	}
 	
-	private void checkValidWorkoutParamters() {
+	private boolean isValidWorkoutParamters() {
 		// TODO Auto-generated method stub
 		int numberOfMuscleGroupsInFocus = getFocus().getSizeOfFocus(); //should be 1, 2, or 3
-		if (getNUM_TOTAL_EXERCISES() % numberOfMuscleGroupsInFocus != 0) // NUM_TOTAL_EXERCISE should be 6
+		if (getNUM_TOTAL_EXERCISES() % numberOfMuscleGroupsInFocus != 0) {// NUM_TOTAL_EXERCISE should be 6
 			System.out.println("Total Number of exercises not divisible by number of muscle groups");
+			return false;
+		}
+		int numExercisesForEachMuscleGroup = getNUM_TOTAL_EXERCISES() / numberOfMuscleGroupsInFocus;	
+		for (MuscleGroup m : getFocus().getMuscleGroups()) {
+			if (!possibleToCreateSetOfExercisesForMG(numExercisesForEachMuscleGroup, m, exerciseDB))
+				return false;
+		}	
 		//int numExercisesForEachMuscleGroup = getNUM_TOTAL_EXERCISES() / numberOfMuscleGroupsInFocus;	
+		return true;
 		
+	}
+	
+	public boolean getIsValidParameters() {
+		return isValidParameters;
 	}
 	
 	

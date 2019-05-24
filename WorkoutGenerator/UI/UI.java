@@ -24,10 +24,11 @@ public class UI extends JPanel{
 	private List<JCheckBox> checkBoxes;
 	private JTextArea workoutArea;
 	
+	private WorkoutGenerator wg;
+	
 	public UI() {
 		this.mgSelected = new ArrayList<MuscleGroup>();	
-		createUserInterface();
-		
+		createUserInterface();	
 	}
 	
 	private void createUserInterface() {
@@ -54,9 +55,7 @@ public class UI extends JPanel{
 	
 	private void createTopRow() {
 		JPanel topRow = new JPanel();
-		//topRow.setBounds(0, 0, frame.getWidth(), frame.getHeight()/4);
 		topRow.setLayout(new FlowLayout());	
-		List<JCheckBox> checkBoxes = null;
 		createTopLeftComponents(topRow); 
 		createTopRightComponents(topRow);		
 		frame.add(topRow);		
@@ -87,15 +86,25 @@ public class UI extends JPanel{
 		generateWorkoutButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				workoutArea.setText("");
 				updateMGSelected();
 				List<MuscleGroup> muscleGroups = mgSelected;
 				Type type = (Type) workoutTypeOptionsCB.getSelectedItem();
 				if (muscleGroups.size()==0)
 					JOptionPane.showMessageDialog(frame, "Need to Select at least 1 Muscle Group");
 				else {
-					WorkoutGenerator wg = new WorkoutGenerator(new Focus(muscleGroups), type);
-					workoutArea.setText(wg.toString());
-					resizeUI();
+					wg = new WorkoutGenerator(new Focus(muscleGroups), type);
+					String workoutText;
+					if (!wg.getWorkout().getIsValidParameters()) {
+						workoutText="";
+						JOptionPane.showMessageDialog(frame, "Please select different combination of Muscle Groups (not enough unique exercises to generate workout)");
+					}
+					else {
+						workoutText = wg.toString();
+						workoutArea.setText(workoutText);
+						resizeUI();
+					}
+						
 				}			
 			}
 		});
