@@ -1,5 +1,3 @@
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.List;
 
 public class WorkoutGenerator {
@@ -17,8 +15,8 @@ public class WorkoutGenerator {
 	}
 	
 	private static List<ExerciseInfo> getExercisesInfo() {
-		ExerciseDatabase db = new ExerciseDatabase(".\\ExerciseDatabase2.xlsx");
-		return db.getExercises();  
+		ExcelDatabase db = new ExcelDatabase(".\\ExerciseDatabase2.xlsx");
+		return db.getExercises(); 
 	}
 	
 	public String toString() {
@@ -29,8 +27,7 @@ public class WorkoutGenerator {
 		return w;
 	}
 	
-	public static void main(String[] args) {
-			
+	public static void main(String[] args) {	
 		WorkoutGenerator wgUI = new WorkoutGenerator();
 	}
 

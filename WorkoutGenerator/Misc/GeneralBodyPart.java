@@ -1,7 +1,7 @@
 
 public enum GeneralBodyPart implements MuscleGroup {
 	//these string values NEED to match exactly with the string values in the database
-	UpperBody, LowerBody, FullBody, Arms, Everything; //FullBodyCardioFocused;
+	UpperBody, LowerBody, FullBody, Arms; //FullBodyCardioFocused;
 
 	public MuscleGroup getMuscleGroupValue(String muscleGroupStr) {
 		for (MuscleGroup m : GeneralBodyPart.values()) {

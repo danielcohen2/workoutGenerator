@@ -7,19 +7,18 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExerciseDatabase implements AccessDatabase{
+public class ExcelDatabase implements AccessDatabase{
 	
 	private String path;
 	private List<ExerciseInfo> exercises; //ArrayList<HashSet<Exercise>> exercises = new ArrayList<HashSet<Exercise>>(); 
 	
-	public ExerciseDatabase(String path) {
-		this.setPath(path);
-		this.setExercises(createListFromDatabase(path));
-		
+	public ExcelDatabase(String path) {
+		this.path = path;
+		this.exercises = fetchExercises();	
 	}
 
 	@Override
-	public List<ExerciseInfo> createListFromDatabase(String path) {
+	public List<ExerciseInfo> fetchExercises() {
 		List<ExerciseInfo> exercises = new ArrayList<ExerciseInfo>();
 		try {
 			File file = new File(path);

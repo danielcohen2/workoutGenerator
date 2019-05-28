@@ -211,6 +211,7 @@ public class Workout {
 		int numExercisesForEachMuscleGroup = getNUM_TOTAL_EXERCISES() / numberOfMuscleGroupsInFocus;		
 		
 		while (exercises.getSize() < getNUM_TOTAL_EXERCISES()) {
+			exercises = new WorkoutExercises();
 			List<MuscleGroup> muscleGroups = getFocus().getMuscleGroups();
 			for (MuscleGroup m : muscleGroups) { //create list of exercises for each of the muscle groups
 				GroupOfExercises g = createSetOfExercisesForMG(numExercisesForEachMuscleGroup, m, getExerciseDB());
@@ -224,7 +225,8 @@ public class Workout {
 						System.out.println("very rare situation that 2 exercises are the same from differnt muscle group lists (i.e chin up (back), chin up (biceps)");
 						break;
 					}
-					exercises.addToOrderedWorkoutList(g.getExercises().get(counterForEachExercise));
+					else
+						exercises.addToOrderedWorkoutList(g.getExercises().get(counterForEachExercise));
 				} 
 			}
 			//if there aren't NUM_TOTAL EXERCISES in exercises, then will start back at the  re-makes groups of exercises
@@ -298,10 +300,7 @@ public class Workout {
 				filteredExerciseInfo.addAll(upperBody);
 				filteredExerciseInfo.addAll(lowerBody);
 			}
-			if (muscleGroup.equals(GeneralBodyPart.Everything)) {
-				filteredExerciseInfo = db;
-				
-			}
+			
 			
 		}			
 		else { // regular BodyPart - so grab primary muscle group 
